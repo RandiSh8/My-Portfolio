@@ -6,12 +6,12 @@ import { GithubIcon, LinkedinIcon, MediumIcon } from "./icons";
 const footerLinks = [
   {
     icon: GithubIcon,
-    href: "#", // TODO: Add actual GitHub URL
+    href: "https://github.com/RandiSh8",
     label: "GitHub",
   },
   {
     icon: LinkedinIcon,
-    href: "#", // TODO: Add actual LinkedIn URL
+    href: "https://www.linkedin.com/in/randi-kaweesha-30a470291/",
     label: "LinkedIn",
   },
   {
@@ -21,7 +21,7 @@ const footerLinks = [
   },
   {
     icon: Mail,
-    href: "mailto:randi.kaweesha@gmail.com",
+    href: "mailto:randikaveesha88@gmail.com",
     label: "Email",
   },
 ];
@@ -29,26 +29,8 @@ const footerLinks = [
 export default function Footer() {
   return (
     <footer className="border-t border-border bg-bg-secondary/30">
-      {/* CTA Banner */}
-      <div className="section-padding py-16 text-center">
-        <div className="mx-auto max-w-2xl">
-          <h3 className="text-2xl font-bold text-text-primary sm:text-3xl">
-            Have an idea in mind?
-          </h3>
-          <p className="mt-3 text-text-secondary">
-            Let&apos;s work together and build something great.
-          </p>
-          <a
-            href="#contact"
-            className="gradient-btn mt-6 inline-flex items-center gap-2 rounded-full px-8 py-3 text-sm font-semibold text-white"
-          >
-            Let&apos;s Connect ✦
-          </a>
-        </div>
-      </div>
-
       {/* Bottom */}
-      <div className="section-padding border-t border-border py-8">
+      <div className="section-padding py-8">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 sm:flex-row">
           <div className="flex items-center gap-3">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-blue-primary to-purple-primary text-xs font-bold text-white">

@@ -2,122 +2,77 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Download } from "lucide-react";
+import { Download, Mail } from "lucide-react";
+import { GithubIcon, LinkedinIcon, MediumIcon } from "./icons";
 
-// Luminous cyan glowing particles positioned closely to match the reference composition
-const glowingDots = [
-  { size: 4, left: "19%", top: "4%", driftX: 6, driftY: -12, duration: 6, delay: 0 },
-  { size: 3, left: "33%", top: "14%", driftX: -6, driftY: -10, duration: 7, delay: 1 },
-  { size: 5, left: "39%", top: "16%", driftX: 8, driftY: -14, duration: 8, delay: 0.5 },
-  { size: 3, left: "59%", top: "13%", driftX: -8, driftY: -12, duration: 6.5, delay: 2 },
-  { size: 4, left: "11%", top: "22%", driftX: 6, driftY: -15, duration: 9, delay: 1.5 },
-  { size: 5, left: "57%", top: "45%", driftX: -10, driftY: -16, duration: 7.5, delay: 0.8 },
-  { size: 3, left: "92%", top: "45%", driftX: 6, driftY: -10, duration: 8.5, delay: 2.5 },
-  { size: 4, left: "38%", top: "63%", driftX: -8, driftY: -14, duration: 7, delay: 1.2 },
-  { size: 5, left: "64%", top: "82%", driftX: 8, driftY: -16, duration: 8, delay: 3 },
-  { size: 3, left: "6%", top: "82%", driftX: -6, driftY: -12, duration: 6.8, delay: 0.3 },
-  { size: 4, left: "39%", top: "90%", driftX: 6, driftY: -14, duration: 9.5, delay: 2.2 },
-  { size: 4, left: "96%", top: "94%", driftX: -8, driftY: -12, duration: 7.2, delay: 1.8 },
-  { size: 3, left: "48%", top: "20%", driftX: 6, driftY: -10, duration: 8.2, delay: 0.7 },
-  { size: 4, left: "75%", top: "28%", driftX: -6, driftY: -14, duration: 6.2, delay: 2.8 },
+// Floating bubbles/particles matching Sanduni's portfolio pattern
+const floatingBubbles = [
+  { size: 6, left: "6%", top: "14%", duration: 18, delay: 0, opacity: 0.65, color: "#20B2A6" },
+  { size: 5, left: "14%", top: "45%", duration: 22, delay: 2, opacity: 0.55, color: "#38BDF8" },
+  { size: 4, left: "22%", top: "28%", duration: 25, delay: 1, opacity: 0.6, color: "#20B2A6" },
+  { size: 7, left: "33%", top: "22%", duration: 20, delay: 3, opacity: 0.7, color: "#22D3EE" },
+  { size: 5, left: "43%", top: "18%", duration: 24, delay: 0.5, opacity: 0.65, color: "#38BDF8" },
+  { size: 4, left: "40%", top: "62%", duration: 19, delay: 4, opacity: 0.5, color: "#20B2A6" },
+  { size: 6, left: "48%", top: "25%", duration: 27, delay: 1.5, opacity: 0.6, color: "#38BDF8" },
+  { size: 5, left: "58%", top: "45%", duration: 23, delay: 3.5, opacity: 0.55, color: "#60A5FA" },
+  { size: 6, left: "68%", top: "12%", duration: 21, delay: 2.2, opacity: 0.7, color: "#20B2A6" },
+  { size: 4, left: "78%", top: "16%", duration: 26, delay: 4.5, opacity: 0.6, color: "#22D3EE" },
+  { size: 5, left: "81%", top: "3%", duration: 19, delay: 1.8, opacity: 0.55, color: "#38BDF8" },
+  { size: 7, left: "88%", top: "24%", duration: 24, delay: 0.8, opacity: 0.65, color: "#20B2A6" },
+  { size: 5, left: "92%", top: "45%", duration: 22, delay: 2.7, opacity: 0.6, color: "#38BDF8" },
+  { size: 4, left: "90%", top: "75%", duration: 20, delay: 3.2, opacity: 0.55, color: "#60A5FA" },
+  { size: 6, left: "76%", top: "65%", duration: 25, delay: 1.2, opacity: 0.6, color: "#20B2A6" },
+  { size: 5, left: "65%", top: "82%", duration: 28, delay: 4.1, opacity: 0.5, color: "#22D3EE" },
+  { size: 6, left: "50%", top: "89%", duration: 18, delay: 2.5, opacity: 0.65, color: "#38BDF8" },
+  { size: 5, left: "38%", top: "83%", duration: 26, delay: 0.9, opacity: 0.6, color: "#20B2A6" },
+  { size: 4, left: "26%", top: "72%", duration: 21, delay: 3.8, opacity: 0.55, color: "#38BDF8" },
+  { size: 6, left: "19%", top: "80%", duration: 23, delay: 1.7, opacity: 0.6, color: "#22D3EE" },
+  { size: 5, left: "10%", top: "88%", duration: 27, delay: 2.9, opacity: 0.5, color: "#20B2A6" },
+  { size: 4, left: "3%", top: "70%", duration: 20, delay: 4.2, opacity: 0.55, color: "#60A5FA" },
+  { size: 5, left: "2%", top: "32%", duration: 24, delay: 1.1, opacity: 0.6, color: "#38BDF8" },
+  { size: 6, left: "11%", top: "22%", duration: 22, delay: 3.1, opacity: 0.65, color: "#20B2A6" },
+  { size: 4, left: "29%", top: "54%", duration: 19, delay: 0.4, opacity: 0.5, color: "#38BDF8" },
+  { size: 5, left: "52%", top: "40%", duration: 25, delay: 2.1, opacity: 0.6, color: "#22D3EE" },
+  { size: 4, left: "62%", top: "33%", duration: 23, delay: 3.7, opacity: 0.55, color: "#20B2A6" },
+  { size: 5, left: "84%", top: "58%", duration: 21, delay: 1.4, opacity: 0.65, color: "#60A5FA" },
+  { size: 6, left: "95%", top: "30%", duration: 26, delay: 4.8, opacity: 0.6, color: "#38BDF8" },
+  { size: 4, left: "70%", top: "92%", duration: 22, delay: 2.6, opacity: 0.5, color: "#22D3EE" },
 ];
 
 export default function Hero() {
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center section-padding pt-32 pb-20 overflow-hidden bg-[#060A10]"
+      className="relative min-h-screen flex items-center section-padding pt-32 pb-20 overflow-hidden bg-[#070B1A]"
     >
-      {/* 3D Perspective Digital Horizon Grid & Glow */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        {/* Luminous Horizon Line */}
-        <div className="absolute top-[56%] inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-blue-400/60 via-purple-400/50 to-transparent z-0" />
-        <div className="absolute top-[56%] inset-x-0 h-[3px] bg-gradient-to-r from-transparent via-blue-500/25 to-transparent blur-[2px] z-0" />
+      {/* Exact Hero Background Perspective Grid & Horizon Image from Sanduni's Portfolio */}
+      <div className="absolute inset-0 pointer-events-none">
+        <Image
+          src="/hero-bg.jpg"
+          alt="Hero Background"
+          fill
+          className="object-cover opacity-40"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#070B1A]/20 via-[#070B1A]/80 to-[#070B1A]" />
+      </div>
 
-        {/* Soft horizon vanishing glow */}
-        <div className="absolute top-[56%] left-1/2 -translate-x-1/2 -translate-y-1/2 h-[220px] w-[700px] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.18),transparent_70%)] blur-2xl pointer-events-none" />
-
-        {/* Perspective Rays & Grid Floor Fanning Outward */}
-        <motion.div
-          animate={{ opacity: [0.35, 0.5, 0.35] }}
-          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute inset-x-0 bottom-0 top-[56%] overflow-hidden pointer-events-none"
-        >
-          <svg
-            className="w-full h-full"
-            viewBox="0 0 1000 400"
-            preserveAspectRatio="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <defs>
-              <linearGradient id="rayGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="#60A5FA" stopOpacity="0.8" />
-                <stop offset="60%" stopColor="#3B82F6" stopOpacity="0.4" />
-                <stop offset="100%" stopColor="#1E3A8A" stopOpacity="0.08" />
-              </linearGradient>
-            </defs>
-
-            {/* Horizontal perspective lines receding towards vanishing point (500, 0) */}
-            <line x1="0" y1="20" x2="1000" y2="20" stroke="url(#rayGradient)" strokeWidth="1" opacity="0.45" />
-            <line x1="0" y1="50" x2="1000" y2="50" stroke="url(#rayGradient)" strokeWidth="1" opacity="0.55" />
-            <line x1="0" y1="95" x2="1000" y2="95" stroke="url(#rayGradient)" strokeWidth="1" opacity="0.65" />
-            <line x1="0" y1="155" x2="1000" y2="155" stroke="url(#rayGradient)" strokeWidth="1.1" opacity="0.75" />
-            <line x1="0" y1="235" x2="1000" y2="235" stroke="url(#rayGradient)" strokeWidth="1.2" opacity="0.85" />
-            <line x1="0" y1="340" x2="1000" y2="340" stroke="url(#rayGradient)" strokeWidth="1.4" opacity="0.95" />
-
-            {/* Perspective Rays fanning out from the vanishing point */}
-            {/* Center ray */}
-            <line x1="500" y1="0" x2="500" y2="400" stroke="url(#rayGradient)" strokeWidth="1" />
-
-            {/* Left-side radiating rays */}
-            <line x1="500" y1="0" x2="430" y2="400" stroke="url(#rayGradient)" strokeWidth="1" />
-            <line x1="500" y1="0" x2="350" y2="400" stroke="url(#rayGradient)" strokeWidth="1" />
-            <line x1="500" y1="0" x2="250" y2="400" stroke="url(#rayGradient)" strokeWidth="1" />
-            <line x1="500" y1="0" x2="130" y2="400" stroke="url(#rayGradient)" strokeWidth="1" />
-            <line x1="500" y1="0" x2="-20" y2="400" stroke="url(#rayGradient)" strokeWidth="1" />
-            <line x1="500" y1="0" x2="-220" y2="400" stroke="url(#rayGradient)" strokeWidth="1" />
-            <line x1="500" y1="0" x2="-500" y2="400" stroke="url(#rayGradient)" strokeWidth="1" />
-            <line x1="500" y1="0" x2="0" y2="220" stroke="url(#rayGradient)" strokeWidth="1" />
-            <line x1="500" y1="0" x2="0" y2="100" stroke="url(#rayGradient)" strokeWidth="1" />
-            <line x1="500" y1="0" x2="0" y2="35" stroke="url(#rayGradient)" strokeWidth="1" />
-
-            {/* Right-side radiating rays */}
-            <line x1="500" y1="0" x2="570" y2="400" stroke="url(#rayGradient)" strokeWidth="1" />
-            <line x1="500" y1="0" x2="650" y2="400" stroke="url(#rayGradient)" strokeWidth="1" />
-            <line x1="500" y1="0" x2="750" y2="400" stroke="url(#rayGradient)" strokeWidth="1" />
-            <line x1="500" y1="0" x2="870" y2="400" stroke="url(#rayGradient)" strokeWidth="1" />
-            <line x1="500" y1="0" x2="1020" y2="400" stroke="url(#rayGradient)" strokeWidth="1" />
-            <line x1="500" y1="0" x2="1220" y2="400" stroke="url(#rayGradient)" strokeWidth="1" />
-            <line x1="500" y1="0" x2="1500" y2="400" stroke="url(#rayGradient)" strokeWidth="1" />
-            <line x1="500" y1="0" x2="1000" y2="220" stroke="url(#rayGradient)" strokeWidth="1" />
-            <line x1="500" y1="0" x2="1000" y2="100" stroke="url(#rayGradient)" strokeWidth="1" />
-            <line x1="500" y1="0" x2="1000" y2="35" stroke="url(#rayGradient)" strokeWidth="1" />
-          </svg>
-        </motion.div>
-
-        {/* Floating Glowing Blue/Purple Particles */}
-        {glowingDots.map((dot, idx) => (
-          <motion.div
+      {/* Floating Glowing Particle Bubbles (Exact Pattern & Animation from Sanduni Portfolio) */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {floatingBubbles.map((bubble, idx) => (
+          <div
             key={idx}
+            className="absolute rounded-full shadow-[0_0_8px_#38BDF8,0_0_16px_rgba(56,189,248,0.5)]"
             style={{
-              width: dot.size,
-              height: dot.size,
-              left: dot.left,
-              top: dot.top,
+              width: bubble.size,
+              height: bubble.size,
+              backgroundColor: bubble.color,
+              left: bubble.left,
+              top: bubble.top,
+              opacity: bubble.opacity,
+              animation: `slow-drift ${bubble.duration}s ease-in-out infinite`,
+              animationDelay: `${bubble.delay}s`,
             }}
-            animate={{
-              y: [0, dot.driftY, 0],
-              x: [0, dot.driftX, 0],
-              opacity: [0.35, 1, 0.35],
-              scale: [0.85, 1.25, 0.85],
-            }}
-            transition={{
-              duration: dot.duration,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: dot.delay,
-            }}
-            className="absolute rounded-full bg-blue-400 shadow-[0_0_10px_#60A5FA,0_0_20px_rgba(96,165,250,0.7)]"
           />
         ))}
       </div>
@@ -159,11 +114,57 @@ export default function Hero() {
               Contact
             </a>
             <a
-              href="#" // TODO: Add CV download link
+              href="/Randi_Kaweesha_CV.pdf"
+              download="Randi_Kaweesha_CV.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-white/[0.03] px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition-all hover:bg-white/[0.08] hover:border-white/30"
             >
               <Download size={16} className="text-white" />
               Download CV
+            </a>
+          </div>
+
+          {/* Follow Me Social Links */}
+          <div className="mt-7 flex items-center justify-center gap-3 lg:justify-start">
+            <span className="text-sm font-medium text-slate-400 mr-1">Follow me:</span>
+
+            <a
+              href="https://github.com/RandiSh8"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub Profile"
+              className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-slate-300 transition-all hover:border-blue-400/50 hover:bg-white/[0.08] hover:text-white hover:shadow-[0_0_12px_rgba(96,165,250,0.3)]"
+            >
+              <GithubIcon className="h-4 w-4" />
+            </a>
+
+            <a
+              href="https://www.linkedin.com/in/randi-kaweesha-30a470291/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn Profile"
+              className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-slate-300 transition-all hover:border-blue-400/50 hover:bg-white/[0.08] hover:text-white hover:shadow-[0_0_12px_rgba(96,165,250,0.3)]"
+            >
+              <LinkedinIcon className="h-4 w-4" />
+            </a>
+
+            <a
+              href="https://medium.com/@RandiSh8"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Medium Profile"
+              className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-slate-300 transition-all hover:border-blue-400/50 hover:bg-white/[0.08] hover:text-white hover:shadow-[0_0_12px_rgba(96,165,250,0.3)]"
+            >
+              <MediumIcon className="h-4 w-4" />
+            </a>
+
+            <a
+              href="mailto:randikaveesha88@gmail.com"
+              aria-label="Send Email"
+              className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-slate-300 transition-all hover:border-blue-400/50 hover:bg-white/[0.08] hover:text-white hover:shadow-[0_0_12px_rgba(96,165,250,0.3)]"
+            >
+              <Mail size={16} />
             </a>
           </div>
         </motion.div>

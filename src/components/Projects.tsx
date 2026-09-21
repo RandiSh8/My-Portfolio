@@ -1,14 +1,16 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
-import { ArrowUpRight, ExternalLink } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { GithubIcon } from "./icons";
 import { projects } from "@/data/projects";
 
 export default function Projects() {
   return (
-    <section id="projects" className="relative overflow-hidden pt-12 pb-24 lg:pt-16 lg:pb-32 bg-bg-secondary/30 scroll-mt-20">
+    <section
+      id="projects"
+      className="relative overflow-hidden pt-12 pb-24 lg:pt-16 lg:pb-32 bg-bg-secondary/30 scroll-mt-20"
+    >
       {/* Background glow accents */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute top-1/3 right-1/4 h-80 w-80 rounded-full bg-blue-primary/[0.05] blur-[110px]" />
@@ -46,88 +48,76 @@ export default function Projects() {
             transition={{ duration: 0.4, delay: 0.2 }}
             className="mt-4 text-sm sm:text-base text-text-secondary max-w-2xl mx-auto leading-relaxed"
           >
-            A selection of my recent work, from complex web applications to
-            innovative tools that solve real-world problems.
+            A selection of my recent work, from full-stack applications to AI-powered collaborative tools that solve real-world problems.
           </motion.p>
         </div>
 
-        {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+        {/* Projects Grid (Text-Focused, Clean Glass Cards) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
           {projects.map((project, index) => (
             <motion.div
               key={project.id}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.15 * index }}
-              className="group rounded-3xl glass-card border border-border overflow-hidden flex flex-col hover-glow transition-all"
+              transition={{ duration: 0.4, delay: 0.1 * index }}
+              className="group rounded-3xl glass-card border border-border p-7 sm:p-8 flex flex-col justify-between hover-glow transition-all"
             >
-              {/* Card Image Banner */}
-              <div className="relative aspect-[16/10] w-full overflow-hidden bg-bg-card">
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-bg-card via-transparent to-transparent opacity-60" />
-              </div>
-
-              {/* Card Body */}
-              <div className="p-7 md:p-8 flex flex-col flex-1">
-                {/* Title & Arrow */}
-                <div className="flex items-start justify-between gap-4">
-                  <h3 className="text-xl md:text-2xl font-bold text-text-primary group-hover:text-blue-bright transition-colors leading-snug">
-                    {project.title}
-                  </h3>
-                  <ArrowUpRight className="h-5 w-5 text-text-secondary group-hover:text-blue-bright group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all flex-shrink-0 mt-1" />
-                </div>
+              <div>
+                {/* Project Title */}
+                <h3 className="text-xl sm:text-2xl font-bold text-text-primary group-hover:text-blue-bright transition-colors leading-snug">
+                  {project.title}
+                </h3>
 
                 {/* Description */}
-                <p className="mt-4 text-sm leading-relaxed text-text-secondary flex-1">
+                <p className="mt-3.5 text-sm leading-relaxed text-text-secondary">
                   {project.description}
                 </p>
 
-                {/* Footer with technologies and links */}
-                <div className="mt-6 pt-5 border-t border-border/50 flex flex-wrap items-center justify-between gap-4">
-                  <div className="flex flex-wrap gap-2">
-                    {project.technologies.map((tech) => (
-                      <span
-                        key={tech}
-                        className="rounded-full bg-white/[0.04] border border-border px-3 py-1 text-xs font-medium text-text-secondary"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className="flex items-center gap-3">
-                    <a
-                      href={project.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-bright hover:text-blue-primary transition-colors"
+                {/* Tech Stack Badges */}
+                <div className="mt-6 flex flex-wrap gap-2">
+                  {project.technologies.map((tech) => (
+                    <span
+                      key={tech}
+                      className="rounded-full bg-white/[0.04] border border-border px-3 py-1 text-xs font-medium text-text-secondary group-hover:border-blue-bright/30 transition-colors"
                     >
-                      <GithubIcon className="h-3.5 w-3.5" />
-                      Code
-                    </a>
-                    {project.liveUrl && (
-                      <a
-                        href={project.liveUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 text-xs font-semibold text-purple-bright hover:text-purple-primary transition-colors"
-                      >
-                        <ExternalLink size={13} />
-                        Live Demo
-                      </a>
-                    )}
-                  </div>
+                      {tech}
+                    </span>
+                  ))}
                 </div>
+              </div>
+
+              {/* Bottom Row: See Project Button */}
+              <div className="mt-8 pt-5 border-t border-border/50 flex items-center justify-end">
+                <a
+                  href={project.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-xs font-semibold text-blue-bright group-hover:text-blue-primary transition-colors"
+                >
+                  See Project
+                  <ArrowUpRight
+                    size={14}
+                    className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  />
+                </a>
               </div>
             </motion.div>
           ))}
+        </div>
+
+        {/* View More Projects CTA */}
+        <div className="mt-12 text-center">
+          <a
+            href="https://github.com/RandiSh8"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-full border border-border bg-white/[0.04] px-6 py-3 text-sm font-semibold text-text-primary transition-all hover:bg-white/[0.08] hover:border-blue-bright/40 shadow-lg"
+          >
+            <GithubIcon className="h-4 w-4 text-blue-bright" />
+            <span>See more projects</span>
+            <ArrowUpRight size={15} className="text-text-secondary" />
+          </a>
         </div>
       </div>
     </section>

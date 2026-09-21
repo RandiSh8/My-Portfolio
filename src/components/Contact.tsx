@@ -20,11 +20,39 @@ interface FormErrors {
 
 async function submitContactForm(
   data: ContactFormData,
-): Promise<{ success: boolean }> {
-  // Simulate network delay
-  await new Promise((resolve) => setTimeout(resolve, 800));
-  console.log("Contact form submitted:", data);
-  return { success: true };
+): Promise<{ success: boolean; message?: string }> {
+  const accessKey =
+    process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY ||
+    "194018ed-15a2-4220-8e65-89ca357285a3";
+
+  if (!accessKey) {
+    throw new Error(
+      "Web3Forms Access Key is not configured. Please add your key to .env.local"
+    );
+  }
+
+  const response = await fetch("https://api.web3forms.com/submit", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      access_key: accessKey,
+      name: data.name,
+      email: data.email,
+      subject: data.subject,
+      message: data.message,
+      from_name: "Portfolio Contact Form",
+    }),
+  });
+
+  const result = await response.json();
+  if (result.success) {
+    return { success: true };
+  } else {
+    throw new Error(result.message || "Failed to send message. Please try again.");
+  }
 }
 
 function validateForm(data: ContactFormData): FormErrors {
@@ -48,6 +76,7 @@ export default function Contact() {
     message: "",
   });
   const [errors, setErrors] = useState<FormErrors>({});
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -58,6 +87,9 @@ export default function Contact() {
     setFormData((prev) => ({ ...prev, [name]: value }));
     if (errors[name as keyof FormErrors]) {
       setErrors((prev) => ({ ...prev, [name]: undefined }));
+    }
+    if (errorMessage) {
+      setErrorMessage(null);
     }
   };
 
@@ -70,12 +102,17 @@ export default function Contact() {
     }
 
     setIsSubmitting(true);
+    setErrorMessage(null);
     try {
       await submitContactForm(formData);
       setIsSubmitted(true);
       setFormData({ name: "", email: "", subject: "", message: "" });
-    } catch {
-      // Handle error
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setErrorMessage(err.message);
+      } else {
+        setErrorMessage("Something went wrong. Please try again later.");
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -236,6 +273,13 @@ export default function Contact() {
                       </p>
                     )}
                   </div>
+
+                  {/* Error Alert */}
+                  {errorMessage && (
+                    <div className="rounded-xl border border-red-500/20 bg-red-500/10 p-3.5 text-xs text-red-400">
+                      {errorMessage}
+                    </div>
+                  )}
 
                   {/* Submit Button */}
                   <div className="pt-2">

@@ -78,7 +78,10 @@ export default function About() {
             {/* Action link */}
             <div className="mt-8 pt-2">
               <a
-                href="#" // TODO: Add CV download link
+               href="/Randi_Kaweesha_CV.pdf"
+  download="Randi_Kaweesha_CV.pdf"
+  target="_blank"
+  rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-full border border-border bg-white/[0.04] px-6 py-2.5 text-sm font-semibold text-text-primary transition-all hover:bg-white/[0.08] hover:border-blue-bright/40"
               >
                 <Download size={16} className="text-blue-bright" />
